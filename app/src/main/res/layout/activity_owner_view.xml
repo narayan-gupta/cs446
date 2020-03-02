@@ -5,34 +5,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".MainActivity">
+    tools:context=".OwnerView">
 
     <ImageView
         android:id="@+id/StoreFrontLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="250dp"
         android:src="@drawable/storefront" />
 
-    <Button
-        android:id="@+id/Search"
+    <TextView
+        android:id="@+id/LoginText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/StoreFrontLogo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:onClick="SearchView"
-        android:text="Search Store" />
+        android:layout_below="@id/StoreFrontLogo"
+        android:ems="10"
+        android:layout_marginTop="50dp"
+        android:text="Welcome to the Owner Portal!"
+        android:textAlignment="center"
+        android:textSize="25dp"
+        android:textColor="@android:color/white"/>
 
     <Button
-        android:id="@+id/OwnerLoginButton"
+        android:id="@+id/ViewProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/Search"
+        android:layout_below="@id/LoginText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:onClick="OwnerLoginView"
-        android:text="Owner Login" />
+        android:text="View Existing Products"
+        android:onClick="GetProducts"/>
+
+    <Button
+        android:id="@+id/CreateLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ViewProduct"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Create Store Layout" />
 
 </RelativeLayout>
