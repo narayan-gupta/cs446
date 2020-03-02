@@ -14,7 +14,7 @@ public class OwnerView extends AppCompatActivity {
     }
 
     public void GetProducts(View v) {
-        Intent intent = new Intent(this, Search.class);
+        Intent intent = new Intent(this, ProductListActivity.class);
         intent.putExtra("user", "owner");
         startActivity(intent);
     }

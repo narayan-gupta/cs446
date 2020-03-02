@@ -12,6 +12,10 @@
         <activity android:name=".OwnerView"></activity>
         <activity android:name=".Search" />
         <activity android:name=".OwnerLogin" />
+        <activity android:name=".ProdAddActivity" />
+        <activity android:name=".PathActivity" />
+        <activity android:name=".ProductListActivity"/>
+        <activity android:name=".GridActivity"/>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">

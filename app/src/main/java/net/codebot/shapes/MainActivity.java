@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void SearchView(View v) {
-        Intent intent = new Intent(this, Search.class);
+        Intent intent = new Intent(this, ProductListActivity.class);
         intent.putExtra("user", "shopper");
         startActivity(intent);
 
