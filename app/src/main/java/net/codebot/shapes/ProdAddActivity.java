@@ -94,6 +94,7 @@ public class ProdAddActivity extends AppCompatActivity {
         selectLocation.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intent = new Intent(ProdAddActivity.this, GridActivity.class);
+                intent.putExtra("showPath", false);
                 startActivityForResult(intent, GRID_REQUEST);
             }
         });

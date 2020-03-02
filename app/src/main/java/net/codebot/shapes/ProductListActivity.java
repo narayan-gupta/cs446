@@ -99,49 +99,49 @@ public class ProductListActivity extends AppCompatActivity {
                     "\"name\":\"Frosted Flakes\"," +
                     "\"pic\":\""+flakes+"\","+
                     "\"quantity\":\"12\"," +
-                    "\"location\":\"B12\"" +
+                    "\"location\":\"A1\"" +
                     "},"+
                     "{"+
                     "\"id\":\"2\"," +
                     "\"name\":\"Bread\"," +
                     "\"pic\":\""+bread+"\","+
                     "\"quantity\":\"5\"," +
-                    "\"location\":\"G13\"" +
+                    "\"location\":\"D9\"" +
                     "},"+
                     "{"+
                     "\"id\":\"3\"," +
                     "\"name\":\"Whole Wheat Bread\"," +
                     "\"pic\":\""+bread2+"\","+
                     "\"quantity\":\"5\"," +
-                    "\"location\":\"G13\"" +
+                    "\"location\":\"D2\"" +
                     "},"+
                     "{"+
                     "\"id\":\"4\"," +
                     "\"name\":\"Figi Water\"," +
                     "\"pic\":\""+figi+"\","+
                     "\"quantity\":\"5\"," +
-                    "\"location\":\"G13\"" +
+                    "\"location\":\"G1\"" +
                     "},"+
                     "{"+
                     "\"id\":\"5\"," +
                     "\"name\":\"Flow Water\"," +
                     "\"pic\":\""+flow+"\","+
                     "\"quantity\":\"12\"," +
-                    "\"location\":\"B12\"" +
+                    "\"location\":\"H2\"" +
                     "},"+
                     "{"+
                     "\"id\":\"6\"," +
                     "\"name\":\"Lucky Charms\"," +
                     "\"pic\":\""+lucky+"\","+
                     "\"quantity\":\"12\"," +
-                    "\"location\":\"B12\"" +
+                    "\"location\":\"G4\"" +
                     "},"+
                     "{"+
                     "\"id\":\"7\"," +
                     "\"name\":\"Vitamine Water\"," +
                     "\"pic\":\""+vitamine+"\","+
                     "\"quantity\":\"12\"," +
-                    "\"location\":\"B12\"" +
+                    "\"location\":\"E6\"" +
                     "}"+
                 "]" +
                 "}";
@@ -313,6 +313,8 @@ public class ProductListActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     //String selectedProds = (new Gson()).toJson(selectedProducts);
 
+
+                    /*
                     ArrayList<Product> selProd= new ArrayList<Product>();
 
                     for(int i=0; i<selectedProducts.size(); i++){
@@ -323,8 +325,16 @@ public class ProductListActivity extends AppCompatActivity {
                     String selectedProds = (new Gson()).toJson(selProd);
                     Intent intent= new Intent(ProductListActivity.this, PathActivity.class);
                     intent.putExtra("selectedProducts", selectedProds);
+                    */
 
 
+                    ArrayList<String> prodLocations= new ArrayList<String>();
+                    for(int i=0; i<selectedProducts.size(); i++) {
+                        prodLocations.add(selectedProducts.get(i).location);
+                    }
+                    Intent intent= new Intent(ProductListActivity.this, GridActivity.class);
+                    intent.putStringArrayListExtra("locations", prodLocations);
+                    intent.putExtra("showPath", true);
                     startActivity(intent);
                 }
             });

@@ -1,9 +1,13 @@
 package net.codebot.shapes;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -22,10 +26,23 @@ public class GridActivity extends AppCompatActivity {
 
         ConstraintLayout layout = findViewById(R.id.outter_layout);
 
+        boolean showPath = getIntent().getBooleanExtra("showPath",false);
+        ArrayList<String> products = new ArrayList<String>();
+        if (showPath) {
+            products = getIntent().getStringArrayListExtra("locations");
+            if (products != null) {
+                for (int i = 0; i < products.size(); i++) {
+                    Log.i("Product", products.get(i));
+                }
+                Collections.sort(products);
+
+            }
+        }
 
         int color1 = ContextCompat.getColor(GridActivity.this, R.color.black);
         int color2 = ContextCompat.getColor(GridActivity.this, R.color.white);
         int color3 = ContextCompat.getColor(GridActivity.this, R.color.legitWhite);
+        int red = ContextCompat.getColor(GridActivity.this, R.color.red);
         TextView textView;
         ConstraintLayout.LayoutParams lp;
         int id;
@@ -66,8 +83,20 @@ public class GridActivity extends AppCompatActivity {
                     String dispVal = letters[iRow]+ Integer.toString(iCol);
                     textView.setText(dispVal);
                     textView.setTextColor(color3);
-                    textView.setClickable(true);
-                    textView.setOnClickListener(new GridOnClickListener(this,iRow,iCol));
+                    if (!showPath){
+                        textView.setClickable(true);
+                        textView.setOnClickListener(new GridOnClickListener(this,iRow,iCol));
+                    }
+                    else{
+                        //int exists = Collections.binarySearch(products,dispVal);
+                        //products.contains(dispVal);
+                        if (products != null) {
+                            if (products.contains(dispVal)) {
+                                textView.setBackgroundColor(red);
+                            }
+                        }
+                    }
+
                 }
                 else{
                     textView.setBackgroundColor(color2);
@@ -77,6 +106,7 @@ public class GridActivity extends AppCompatActivity {
                 layout.addView(textView, lp);
             }
         }
+
 
         // Create horizontal chain for each row and set the 1:1 dimensions.
         // but first make sure the layout frame has the right ratio set.

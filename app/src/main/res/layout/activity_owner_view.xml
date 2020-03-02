@@ -45,6 +45,7 @@
         android:layout_below="@id/ViewProduct"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="Create Store Layout" />
+        android:text="Store Layout"
+        android:onClick="GetLayout"/>
 
 </RelativeLayout>

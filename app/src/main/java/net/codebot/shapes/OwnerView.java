@@ -18,4 +18,10 @@ public class OwnerView extends AppCompatActivity {
         intent.putExtra("user", "owner");
         startActivity(intent);
     }
+
+    public void GetLayout(View v) {
+        Intent intent = new Intent(this, GridActivity.class);
+        intent.putExtra("showPath", true);
+        startActivity(intent);
+    }
 }
