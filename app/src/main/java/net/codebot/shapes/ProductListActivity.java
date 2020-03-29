@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -43,48 +45,55 @@ public class ProductListActivity extends AppCompatActivity {
     void setJSON(){
 
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flake);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-        String flakes = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flake);
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//        byte[] imageBytes = baos.toByteArray();
+        String flakes = "https://i0.wp.com/www.theimpulsivebuy.com/wordpress/wp-content/uploads/2019/01/Kelloggs-Honey-Nut-Frosted-Flakes-Cereal.jpg?fit=1200%2C1200&ssl=1";
+                //Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
-        baos = new ByteArrayOutputStream();
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bread);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        imageBytes = baos.toByteArray();
-        String bread = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+//        baos = new ByteArrayOutputStream();
+//        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bread);
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//        imageBytes = baos.toByteArray();
+        String bread ="https://www.thespruceeats.com/thmb/aKWwztjCoTsiPzayXvDYx6QLyOs=/4288x2412/smart/filters:no_upscale()/loaf-of-bread-182835505-58a7008c5f9b58a3c91c9a14.jpg";
+                //Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
-        baos = new ByteArrayOutputStream();
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bread2);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        imageBytes = baos.toByteArray();
-        String bread2 = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+//        baos = new ByteArrayOutputStream();
+//        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bread2);
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//        imageBytes = baos.toByteArray();
+        String bread2 ="https://www.ambitiouskitchen.com/wp-content/uploads/2019/04/Multi-Grain-Seedy-Sandwich-Bread-Edited-5sq.jpg";
+            //Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
-        baos = new ByteArrayOutputStream();
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.figi);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        imageBytes = baos.toByteArray();
-        String figi = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+//        baos = new ByteArrayOutputStream();
+//        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.figi);
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//        imageBytes = baos.toByteArray();
+        String figi ="https://www.londondrugs.com/on/demandware.static/-/Sites-londondrugs-master/default/dwfa5a35a7/products/L1957240/large/L1957240.JPG";
+            //Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
-        baos = new ByteArrayOutputStream();
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flow);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        imageBytes = baos.toByteArray();
-        String flow = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+//        baos = new ByteArrayOutputStream();
+//        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flow);
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//        imageBytes = baos.toByteArray();
+        String flow ="https://dr9wvh6oz7mzp.cloudfront.net/i/95edb6acacee8c34de969bb96338af64_ra,w380,h380_pa,w380,h380.png";
+            //Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
 
-        baos = new ByteArrayOutputStream();
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.lucky);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        imageBytes = baos.toByteArray();
-        String lucky = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+//        baos = new ByteArrayOutputStream();
+//        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.lucky);
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//        imageBytes = baos.toByteArray();
+        String lucky ="https://www.myamericanmarket.com/12282/general-mills-lucky-charms-big.jpg";
+            //Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
-        baos = new ByteArrayOutputStream();
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.vitamin);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        imageBytes = baos.toByteArray();
-        String vitamine = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+//        baos = new ByteArrayOutputStream();
+//        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.vitamin);
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//        imageBytes = baos.toByteArray();
+        String vitamine = "https://i5.walmartimages.ca/images/Enlarge/160/958/6000200160958.jpg";
+            //Base64.encodeToString(imageBytes, Base64.DEFAULT);
         /*
         imageBytes = Base64.decode(imageString, Base64.DEFAULT);
         Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
@@ -136,6 +145,216 @@ public class ProductListActivity extends AppCompatActivity {
                     "\"quantity\":\"12\"," +
                     "\"location\":\"G4\"" +
                     "},"+
+                "{"+
+                "\"id\":\"8\"," +
+                "\"name\":\"Frosted Flakes\"," +
+                "\"pic\":\""+flakes+"\","+
+                "\"quantity\":\"12\"," +
+                "\"location\":\"A1\"" +
+                "},"+
+                "{"+
+                "\"id\":\"9\"," +
+                "\"name\":\"Bread\"," +
+                "\"pic\":\""+bread+"\","+
+                "\"quantity\":\"5\"," +
+                "\"location\":\"D9\"" +
+                "},"+
+                "{"+
+                "\"id\":\"10\"," +
+                "\"name\":\"Whole Wheat Bread\"," +
+                "\"pic\":\""+bread2+"\","+
+                "\"quantity\":\"5\"," +
+                "\"location\":\"D2\"" +
+                "},"+
+                "{"+
+                "\"id\":\"11\"," +
+                "\"name\":\"Figi Water\"," +
+                "\"pic\":\""+figi+"\","+
+                "\"quantity\":\"5\"," +
+                "\"location\":\"G1\"" +
+                "},"+
+                "{"+
+                "\"id\":\"12\"," +
+                "\"name\":\"Flow Water\"," +
+                "\"pic\":\""+flow+"\","+
+                "\"quantity\":\"12\"," +
+                "\"location\":\"H2\"" +
+                "},"+
+                "{"+
+                "\"id\":\"13\"," +
+                "\"name\":\"Lucky Charms\"," +
+                "\"pic\":\""+lucky+"\","+
+                "\"quantity\":\"12\"," +
+                "\"location\":\"G4\"" +
+                "},"+
+                "{"+
+                "\"id\":\"14\"," +
+                "\"name\":\"Frosted Flakes\"," +
+                "\"pic\":\""+flakes+"\","+
+                "\"quantity\":\"12\"," +
+                "\"location\":\"A1\"" +
+                "},"+
+                "{"+
+                "\"id\":\"15\"," +
+                "\"name\":\"Bread\"," +
+                "\"pic\":\""+bread+"\","+
+                "\"quantity\":\"5\"," +
+                "\"location\":\"D9\"" +
+                "},"+
+                "{"+
+                "\"id\":\"16\"," +
+                "\"name\":\"Whole Wheat Bread\"," +
+                "\"pic\":\""+bread2+"\","+
+                "\"quantity\":\"5\"," +
+                "\"location\":\"D2\"" +
+                "},"+
+                "{"+
+                "\"id\":\"17\"," +
+                "\"name\":\"Figi Water\"," +
+                "\"pic\":\""+figi+"\","+
+                "\"quantity\":\"5\"," +
+                "\"location\":\"G1\"" +
+                "},"+
+                "{"+
+                "\"id\":\"18\"," +
+                "\"name\":\"Flow Water\"," +
+                "\"pic\":\""+flow+"\","+
+                "\"quantity\":\"12\"," +
+                "\"location\":\"H2\"" +
+                "},"+
+                "{"+
+                "\"id\":\"19\"," +
+                "\"name\":\"Lucky Charms\"," +
+                "\"pic\":\""+lucky+"\","+
+                "\"quantity\":\"12\"," +
+                "\"location\":\"G4\"" +
+                "},"+
+                "{"+
+                "\"id\":\"21\"," +
+                "\"name\":\"Frosted Flakes\"," +
+                "\"pic\":\""+flakes+"\","+
+                "\"quantity\":\"12\"," +
+                "\"location\":\"A1\"" +
+                "},"+
+                "{"+
+                "\"id\":\"22\"," +
+                "\"name\":\"Bread\"," +
+                "\"pic\":\""+bread+"\","+
+                "\"quantity\":\"5\"," +
+                "\"location\":\"D9\"" +
+                "},"+
+                "{"+
+                "\"id\":\"23\"," +
+                "\"name\":\"Whole Wheat Bread\"," +
+                "\"pic\":\""+bread2+"\","+
+                "\"quantity\":\"5\"," +
+                "\"location\":\"D2\"" +
+                "},"+
+                "{"+
+                "\"id\":\"24\"," +
+                "\"name\":\"Figi Water\"," +
+                "\"pic\":\""+figi+"\","+
+                "\"quantity\":\"5\"," +
+                "\"location\":\"G1\"" +
+                "},"+
+                "{"+
+                "\"id\":\"25\"," +
+                "\"name\":\"Flow Water\"," +
+                "\"pic\":\""+flow+"\","+
+                "\"quantity\":\"12\"," +
+                "\"location\":\"H2\"" +
+                "},"+
+                "{"+
+                "\"id\":\"26\"," +
+                "\"name\":\"Lucky Charms\"," +
+                "\"pic\":\""+lucky+"\","+
+                "\"quantity\":\"12\"," +
+                "\"location\":\"G4\"" +
+                "},"+
+                "{"+
+                "\"id\":\"28\"," +
+                "\"name\":\"Frosted Flakes\"," +
+                "\"pic\":\""+flakes+"\","+
+                "\"quantity\":\"12\"," +
+                "\"location\":\"A1\"" +
+                "},"+
+                "{"+
+                "\"id\":\"29\"," +
+                "\"name\":\"Bread\"," +
+                "\"pic\":\""+bread+"\","+
+                "\"quantity\":\"5\"," +
+                "\"location\":\"D9\"" +
+                "},"+
+                "{"+
+                "\"id\":\"30\"," +
+                "\"name\":\"Whole Wheat Bread\"," +
+                "\"pic\":\""+bread2+"\","+
+                "\"quantity\":\"5\"," +
+                "\"location\":\"D2\"" +
+                "},"+
+                "{"+
+                "\"id\":\"31\"," +
+                "\"name\":\"Figi Water\"," +
+                "\"pic\":\""+figi+"\","+
+                "\"quantity\":\"5\"," +
+                "\"location\":\"G1\"" +
+                "},"+
+                "{"+
+                "\"id\":\"32\"," +
+                "\"name\":\"Flow Water\"," +
+                "\"pic\":\""+flow+"\","+
+                "\"quantity\":\"12\"," +
+                "\"location\":\"H2\"" +
+                "},"+
+                "{"+
+                "\"id\":\"33\"," +
+                "\"name\":\"Lucky Charms\"," +
+                "\"pic\":\""+lucky+"\","+
+                "\"quantity\":\"12\"," +
+                "\"location\":\"G4\"" +
+                "},"+
+                "{"+
+                "\"id\":\"34\"," +
+                "\"name\":\"Frosted Flakes\"," +
+                "\"pic\":\""+flakes+"\","+
+                "\"quantity\":\"12\"," +
+                "\"location\":\"A1\"" +
+                "},"+
+                "{"+
+                "\"id\":\"35\"," +
+                "\"name\":\"Bread\"," +
+                "\"pic\":\""+bread+"\","+
+                "\"quantity\":\"5\"," +
+                "\"location\":\"D9\"" +
+                "},"+
+                "{"+
+                "\"id\":\"36\"," +
+                "\"name\":\"Whole Wheat Bread\"," +
+                "\"pic\":\""+bread2+"\","+
+                "\"quantity\":\"5\"," +
+                "\"location\":\"D2\"" +
+                "},"+
+                "{"+
+                "\"id\":\"37\"," +
+                "\"name\":\"Figi Water\"," +
+                "\"pic\":\""+figi+"\","+
+                "\"quantity\":\"5\"," +
+                "\"location\":\"G1\"" +
+                "},"+
+                "{"+
+                "\"id\":\"38\"," +
+                "\"name\":\"Flow Water\"," +
+                "\"pic\":\""+flow+"\","+
+                "\"quantity\":\"12\"," +
+                "\"location\":\"H2\"" +
+                "},"+
+                "{"+
+                "\"id\":\"39\"," +
+                "\"name\":\"Lucky Charms\"," +
+                "\"pic\":\""+lucky+"\","+
+                "\"quantity\":\"12\"," +
+                "\"location\":\"G4\"" +
+                "},"+
                     "{"+
                     "\"id\":\"7\"," +
                     "\"name\":\"Vitamine Water\"," +
@@ -216,12 +435,13 @@ public class ProductListActivity extends AppCompatActivity {
 
 
             ImageView pic= new ImageView(ProductListActivity.this);
-            pic.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,200));
+          pic.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,200));
+//
+//            byte[] imageBytes = Base64.decode(productList.get(i).pic, Base64.DEFAULT);
+//            Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+//            pic.setImageBitmap(decodedImage);
 
-            byte[] imageBytes = Base64.decode(productList.get(i).pic, Base64.DEFAULT);
-            Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-            pic.setImageBitmap(decodedImage);
-
+            Picasso.get().load(productList.get(i).pic).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(pic);
             imageBox.addView(pic);
 
 
@@ -375,6 +595,7 @@ public class ProductListActivity extends AppCompatActivity {
                         row.setVisibility(View.GONE);
                     }
                 }
+
             }
         });
 

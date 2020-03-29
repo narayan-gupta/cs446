@@ -44,6 +44,7 @@ public class ProdAddActivity extends AppCompatActivity {
 
             Log.i("Done", "Took pic!");
             Bitmap photo = (Bitmap) data.getExtras().get("data");
+
             ImageView pic= (ImageView)findViewById(R.id.pic_display);
             pic.setImageBitmap(photo);
 
