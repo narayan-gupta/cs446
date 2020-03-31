@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -24,8 +25,8 @@ public class ProdAddActivity extends AppCompatActivity {
     int CAMERA_REQUEST = 1888;
     int GRID_REQUEST = 1;
 
-    String imagePath;
-    String location;
+    String imagePath="noPic";
+    String location="noLoc";
 
 
 
@@ -40,36 +41,39 @@ public class ProdAddActivity extends AppCompatActivity {
             Button b=(Button) findViewById(R.id.prod_location);
             b.setText(location + " (Click to edit)");
         }
-        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+        if (requestCode == CAMERA_REQUEST) {
+            if (resultCode == RESULT_OK){
+                Log.i("Done", "Took pic!");
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
 
-            Log.i("Done", "Took pic!");
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
+                ImageView pic= (ImageView)findViewById(R.id.pic_display);
+                pic.setImageBitmap(photo);
 
-            ImageView pic= (ImageView)findViewById(R.id.pic_display);
-            pic.setImageBitmap(photo);
+                ContextWrapper cw = new ContextWrapper(getApplicationContext());
+                // path to /data/data/yourapp/app_data/imageDir
+                File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+                // Create imageDir
+                File mypath=new File(directory,"newProd.jpg");
 
-            ContextWrapper cw = new ContextWrapper(getApplicationContext());
-            // path to /data/data/yourapp/app_data/imageDir
-            File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-            // Create imageDir
-            File mypath=new File(directory,"newProd.jpg");
-
-            FileOutputStream fos = null;
-            try {
-                fos = new FileOutputStream(mypath);
-                // Use the compress method on the BitMap object to write image to the OutputStream
-                photo.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
+                FileOutputStream fos = null;
                 try {
-                    fos.close();
-                } catch (IOException e) {
+                    fos = new FileOutputStream(mypath);
+                    // Use the compress method on the BitMap object to write image to the OutputStream
+                    photo.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                } catch (Exception e) {
                     e.printStackTrace();
+                } finally {
+                    try {
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
+                imagePath=directory.getAbsolutePath();
+            } else {
+                imagePath="noPic";
             }
 
-            imagePath=directory.getAbsolutePath();
 
 
         }
@@ -107,13 +111,32 @@ public class ProdAddActivity extends AppCompatActivity {
         Button addProd= (Button) findViewById(R.id.add_product_button);
         addProd.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                int id=Integer.parseInt(((EditText)findViewById(R.id.prod_id)).getText().toString());
-                String name=((EditText)findViewById(R.id.prod_name)).getText().toString();
+                EditText nameInput= ((EditText)findViewById(R.id.prod_name));
+                String name=nameInput.getText().toString();
+                if(name.isEmpty()){
+                    nameInput.setError("Product Name Required");
+                    return;
+                }
+                EditText quantityInput= ((EditText)findViewById(R.id.prod_quantity));
+                if(quantityInput.getText().toString().isEmpty()){
+                    quantityInput.setError("Product Quantity Required");
+                    return;
+                }
+                int quantity=Integer.parseInt(quantityInput.getText().toString());
 
-                int quantity=Integer.parseInt(((EditText)findViewById(R.id.prod_quantity)).getText().toString());
+
                 String pic=imagePath;
+                if(pic.equals("noPic")){
+                    Toast.makeText(ProdAddActivity.this, "Take Product Picture Before Submitting", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                Product newProd= new Product(id,name,pic,quantity,location);
+                if(location.equals("noLoc")){
+                    Toast.makeText(ProdAddActivity.this, "Select Product Location Before Submitting", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Product newProd= new Product("none Yet",name,pic,quantity,location);
 
                 String stringToPassBack= (new Gson()).toJson(newProd);
 
