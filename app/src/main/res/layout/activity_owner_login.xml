@@ -6,13 +6,18 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     tools:context=".OwnerLogin">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+
 
     <ImageView
         android:id="@+id/StoreFrontLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp"
         android:src="@drawable/storefront"/>
 
     <TextView
@@ -76,5 +81,6 @@
         android:text=""
         android:textAlignment="center"
         android:textSize="20dp" />
+    </RelativeLayout>
 
 </RelativeLayout>

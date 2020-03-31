@@ -13,16 +13,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.FirebaseFunctionsException;
+import com.google.firebase.functions.HttpsCallableResult;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -30,124 +40,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ProductListActivity extends AppCompatActivity {
 
     String user= "owner";
-    String json;
 
     private static final int ADD_PROD_ACTIVITY_REQUEST_CODE = 0;
-
-    void setJSON(){
-
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flake);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-        String flakes = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
-        baos = new ByteArrayOutputStream();
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bread);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        imageBytes = baos.toByteArray();
-        String bread = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
-        baos = new ByteArrayOutputStream();
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bread2);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        imageBytes = baos.toByteArray();
-        String bread2 = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
-        baos = new ByteArrayOutputStream();
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.figi);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        imageBytes = baos.toByteArray();
-        String figi = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
-        baos = new ByteArrayOutputStream();
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flow);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        imageBytes = baos.toByteArray();
-        String flow = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
-
-        baos = new ByteArrayOutputStream();
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.lucky);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        imageBytes = baos.toByteArray();
-        String lucky = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
-        baos = new ByteArrayOutputStream();
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.vitamin);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        imageBytes = baos.toByteArray();
-        String vitamine = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-        /*
-        imageBytes = Base64.decode(imageString, Base64.DEFAULT);
-        Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-        image.setImageBitmap(decodedImage);
-        */
-
-
-        json="{" +
-                "\"products\": [" +
-                    "{"+
-                    "\"id\":\"1\"," +
-                    "\"name\":\"Frosted Flakes\"," +
-                    "\"pic\":\""+flakes+"\","+
-                    "\"quantity\":\"12\"," +
-                    "\"location\":\"A1\"" +
-                    "},"+
-                    "{"+
-                    "\"id\":\"2\"," +
-                    "\"name\":\"Bread\"," +
-                    "\"pic\":\""+bread+"\","+
-                    "\"quantity\":\"5\"," +
-                    "\"location\":\"D9\"" +
-                    "},"+
-                    "{"+
-                    "\"id\":\"3\"," +
-                    "\"name\":\"Whole Wheat Bread\"," +
-                    "\"pic\":\""+bread2+"\","+
-                    "\"quantity\":\"5\"," +
-                    "\"location\":\"D2\"" +
-                    "},"+
-                    "{"+
-                    "\"id\":\"4\"," +
-                    "\"name\":\"Figi Water\"," +
-                    "\"pic\":\""+figi+"\","+
-                    "\"quantity\":\"5\"," +
-                    "\"location\":\"G1\"" +
-                    "},"+
-                    "{"+
-                    "\"id\":\"5\"," +
-                    "\"name\":\"Flow Water\"," +
-                    "\"pic\":\""+flow+"\","+
-                    "\"quantity\":\"12\"," +
-                    "\"location\":\"H2\"" +
-                    "},"+
-                    "{"+
-                    "\"id\":\"6\"," +
-                    "\"name\":\"Lucky Charms\"," +
-                    "\"pic\":\""+lucky+"\","+
-                    "\"quantity\":\"12\"," +
-                    "\"location\":\"G4\"" +
-                    "},"+
-                    "{"+
-                    "\"id\":\"7\"," +
-                    "\"name\":\"Vitamine Water\"," +
-                    "\"pic\":\""+vitamine+"\","+
-                    "\"quantity\":\"12\"," +
-                    "\"location\":\"E6\"" +
-                    "}"+
-                "]" +
-                "}";
-       // json="{ \"products\": [{\"id\":\"1\", \"name\":\"Frosted Flakes\", \"pic\":\""+flakes+"\", \"quantity\":\"12\", \"location\":\"B12\"}]}";
-    }
-
 
     ArrayList<Product> productList;
 
@@ -161,47 +64,17 @@ public class ProductListActivity extends AppCompatActivity {
         }
     }
 
-    void removeProduct(int index){
-        TableLayout table = (TableLayout) findViewById(R.id.product_table);
-        table.removeView(table.getChildAt(index+1));
 
-    }
 
-    public void populateItemList(String json){
-        try {
-            JSONObject obj = new JSONObject(json);
-            JSONArray products=obj.getJSONArray("products");
-
-            for (int i=0; i<products.length(); i++){
-                JSONObject product= products.getJSONObject(i);
-
-                int id=product.getInt("id");
-                String name=product.getString("name");
-                String pic= product.getString("pic");
-                int quantity= product.getInt("quantity");
-                String location= product.getString("location");
-                productList.add(new Product(id,name,pic,quantity,location));
-
-                Log.i("Name", name);
-                Log.i("ID", Integer.toString(id));
-                Log.i("Quantity", Integer.toString(quantity));
-                Log.i("Location", location);
-            }
-
-        } catch (Throwable tx) {
-            Log.i("error", "error parsing JSON");
-        }
-
-    }
-
+    //populates table based on productList array
     public void populateTable(){
         TableLayout table = (TableLayout) findViewById(R.id.product_table);
 
 
         for(int i=0; i<productList.size(); i++){
-            Log.i("update","Updating product name"+i);
+            Log.i("update","Updating product "+i);
             TableRow row = new TableRow(ProductListActivity.this);
-            row.setId(productList.get(i).id);
+            //row.setId(productList.get(i).id);
             //row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.WRAP_CONTENT));
             row.setWeightSum(1);
             row.setGravity(Gravity.CENTER);
@@ -217,11 +90,12 @@ public class ProductListActivity extends AppCompatActivity {
 
             ImageView pic= new ImageView(ProductListActivity.this);
             pic.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,200));
+//
+//            byte[] imageBytes = Base64.decode(productList.get(i).pic, Base64.DEFAULT);
+//            Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+//            pic.setImageBitmap(decodedImage);
 
-            byte[] imageBytes = Base64.decode(productList.get(i).pic, Base64.DEFAULT);
-            Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-            pic.setImageBitmap(decodedImage);
-
+            Picasso.get().load(productList.get(i).pic).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(pic);
             imageBox.addView(pic);
 
 
@@ -261,13 +135,29 @@ public class ProductListActivity extends AppCompatActivity {
             final Button add_remove = new Button(ProductListActivity.this);
             add_remove.setLayoutParams(new TableRow.LayoutParams(0,TableRow.LayoutParams.WRAP_CONTENT));
             if (user.equals("shopper")){
-                add_remove.setText("Add");
+                add_remove.setText("Add To Cart");
                 add_remove.setBackgroundColor(Color.GREEN);
                 final int index=i;
                 add_remove.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
-                        Toast.makeText(ProductListActivity.this, "Product added: "+productList.get(index).name, Toast.LENGTH_SHORT).show();
-                        selectedProducts.add(productList.get(index));
+                        Log.i("button text", add_remove.getText().toString());
+                        if (add_remove.getText().toString().equals("Add To Cart")){
+                            selectedProducts.add(productList.get(index));
+                            add_remove.setText("Remove From Cart");
+                            add_remove.setBackgroundColor(Color.GRAY);
+                            Toast.makeText(ProductListActivity.this, "Product added to cart: "+productList.get(index).name, Toast.LENGTH_SHORT).show();
+                        } else {
+                            add_remove.setText("Add To Cart");
+                            add_remove.setBackgroundColor(Color.GREEN);
+                            for (int j=0; j<selectedProducts.size(); j++){
+                                if (selectedProducts.get(j).id.equals(productList.get(index).id)){
+                                    selectedProducts.remove(j);
+                                    break;
+                                }
+                            }
+                            Toast.makeText(ProductListActivity.this, "Product removed from cart: "+productList.get(index).name, Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
             } else {
@@ -276,11 +166,9 @@ public class ProductListActivity extends AppCompatActivity {
                 final int index=i;
                 add_remove.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
+                        ((TextInputEditText) findViewById(R.id.search_text)).setText("");
+                        removeProduct(index, productList.get(index).id);
 
-                        Toast.makeText(ProductListActivity.this, "Product removed", Toast.LENGTH_SHORT).show();
-                        productList.remove(index);
-                        clearTable();
-                        populateTable();
                     }
                 });
             }
@@ -293,6 +181,114 @@ public class ProductListActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    void showProgressBar(){
+        ((ProgressBar)findViewById(R.id.progressBar)).setVisibility(View.VISIBLE);
+    }
+
+    void hideProgressBar(){
+        ((ProgressBar)findViewById(R.id.progressBar)).setVisibility(View.INVISIBLE);
+    }
+
+
+    void getProductsAndPopulateTable(){
+
+        showProgressBar();
+
+        ProductListService.getProducts()
+                .addOnCompleteListener(new OnCompleteListener<ArrayList<Product>>() {
+                    @Override
+                    public void onComplete(@NonNull final Task<ArrayList<Product>> task) {
+                        Log.i("onComplete", "got to onComplete");
+                        if (!task.isSuccessful()) {
+                            Log.i("ERROR", "Exception");
+                            Exception e = task.getException();
+                            if (e instanceof FirebaseFunctionsException) {
+                                FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                                FirebaseFunctionsException.Code code = ffe.getCode();
+                                Object details = ffe.getDetails();
+
+                                Log.i("Error", details.toString());
+                                Log.i("Error", ffe.getMessage());
+                                Toast.makeText(ProductListActivity.this, "Error Fetching Products", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Log.i("RETURNED", "Returned in prodlistactivity product array list : "+ new Gson().toJson(task.getResult()));
+
+                            productList=task.getResult();
+                            clearTable();
+                            populateTable();
+
+
+                        }
+                        hideProgressBar();
+                    }
+                });
+    }
+
+
+    void addProduct(Product prod){
+
+        showProgressBar();
+
+        ProductListService.addProduct(prod)
+        .addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull final Task<String> task) {
+                Log.i("onComplete", "got to onComplete");
+                if (!task.isSuccessful()) {
+                    Log.i("ERROR", "Exception");
+                    Exception e = task.getException();
+                    if (e instanceof FirebaseFunctionsException) {
+                        FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                        FirebaseFunctionsException.Code code = ffe.getCode();
+                        Object details = ffe.getDetails();
+                        Log.i("Error", details.toString());
+                        Log.i("Error", ffe.getMessage());
+                        hideProgressBar();
+                        Toast.makeText(ProductListActivity.this, "Error Adding Product", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Log.i("RETURNED", "Returned " + task.getResult());
+                    Toast.makeText(ProductListActivity.this, "Product Successfully Added", Toast.LENGTH_SHORT).show();
+                    getProductsAndPopulateTable();
+
+                }
+            }
+        });
+    }
+
+    void removeProduct(int index, String productID){
+
+        showProgressBar();
+
+        ProductListService.removeProduct(productID)
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull final Task<String> task) {
+                        Log.i("onComplete", "got to onComplete");
+                        if (!task.isSuccessful()) {
+                            Log.i("ERROR", "Exception");
+                            Exception e = task.getException();
+                            if (e instanceof FirebaseFunctionsException) {
+                                FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                                FirebaseFunctionsException.Code code = ffe.getCode();
+                                Object details = ffe.getDetails();
+                                Log.i("Error", details.toString());
+                                Log.i("Error", ffe.getMessage());
+                                Toast.makeText(ProductListActivity.this, "Error Removing Product", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Log.i("RETURNED", "Returned " + task.getResult());
+                            Toast.makeText(ProductListActivity.this, "Product Successfully Removed", Toast.LENGTH_SHORT).show();
+                            productList.remove(index);
+                            clearTable();
+                            populateTable();
+                        }
+                        hideProgressBar();
+                    }
+                });
     }
 
 
@@ -311,22 +307,6 @@ public class ProductListActivity extends AppCompatActivity {
             add_or_path_button.setText("View Path");
             add_or_path_button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    //String selectedProds = (new Gson()).toJson(selectedProducts);
-
-
-                    /*
-                    ArrayList<Product> selProd= new ArrayList<Product>();
-
-                    for(int i=0; i<selectedProducts.size(); i++){
-                        selProd.add(new Product(selectedProducts.get(i).id, selectedProducts.get(i).name,"", selectedProducts.get(i).quantity, selectedProducts.get(i).location));
-
-                    }
-
-                    String selectedProds = (new Gson()).toJson(selProd);
-                    Intent intent= new Intent(ProductListActivity.this, PathActivity.class);
-                    intent.putExtra("selectedProducts", selectedProds);
-                    */
-
 
                     ArrayList<String> prodLocations= new ArrayList<String>();
                     for(int i=0; i<selectedProducts.size(); i++) {
@@ -348,11 +328,6 @@ public class ProductListActivity extends AppCompatActivity {
             });
         }
 
-
-
-        setJSON();
-        populateItemList(json);
-        populateTable();
 
 
         Button searchButton= (Button) findViewById(R.id.search_button);
@@ -378,6 +353,7 @@ public class ProductListActivity extends AppCompatActivity {
             }
         });
 
+        getProductsAndPopulateTable();
 
     }
 
@@ -392,7 +368,7 @@ public class ProductListActivity extends AppCompatActivity {
                 String returnString = data.getStringExtra("product");
                 Product newProd=(new Gson()).fromJson(returnString,new TypeToken<Product>(){}.getType());
 
-                Log.i("Returned", returnString);
+                Log.i("Adding product: ", returnString);
 
 
                 //restoring image, converting to Base64, adding to product list, and then refreshing table
@@ -405,9 +381,10 @@ public class ProductListActivity extends AppCompatActivity {
                     byte[] imageBytes2 = baos2.toByteArray();
                     newProd.pic = Base64.encodeToString(imageBytes2, Base64.DEFAULT);
 
-                    productList.add(newProd);
-                    clearTable();
-                    populateTable();
+
+
+                    addProduct(newProd);
+
 
                 }
                 catch (FileNotFoundException e)
