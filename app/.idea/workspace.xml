@@ -42,11 +42,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/codebot/shapes/HTTPConnector.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-7">
-              <caret line="61" column="53" selection-start-line="61" selection-start-column="53" selection-end-line="61" selection-end-column="53" />
+            <state relative-caret-position="255">
+              <caret line="85" column="48" lean-forward="true" selection-start-line="85" selection-start-column="48" selection-end-line="85" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -91,7 +91,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/codebot/shapes/LoginService.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="77">
@@ -175,9 +175,9 @@
         <option value="$PROJECT_DIR$/src/main/res/layout/activity_owner_login.xml" />
         <option value="$PROJECT_DIR$/src/main/res/layout/activity_owner_view.xml" />
         <option value="$PROJECT_DIR$/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/net/codebot/shapes/HTTPConnector.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/codebot/shapes/LoginService.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/codebot/shapes/OwnerLogin.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/codebot/shapes/HTTPConnector.java" />
       </list>
     </option>
   </component>
@@ -407,7 +407,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="720" height="877" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="877" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Structure" order="0" side_tool="true" />
@@ -417,7 +417,7 @@
       <window_info id="Build Variants" order="4" side_tool="true" />
       <window_info id="Capture Tool" order="5" />
       <window_info id="Resources Explorer" order="6" weight="0.3297568" />
-      <window_info active="true" content_ui="combo" id="Project" order="7" visible="true" weight="0.3259587" />
+      <window_info active="true" content_ui="combo" id="Project" order="7" visible="true" weight="0.15808298" />
       <window_info id="Captures" order="8" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="0" weight="0.3299363" />
       <window_info anchor="bottom" id="Logcat" order="1" sideWeight="0.7188841" visible="true" weight="0.38598725" />
@@ -670,16 +670,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/codebot/shapes/HTTPConnector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7">
-          <caret line="61" column="53" selection-start-line="61" selection-start-column="53" selection-end-line="61" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/net/codebot/shapes/ProductListService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-16">
@@ -705,6 +695,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="77">
           <caret line="15" column="37" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/codebot/shapes/HTTPConnector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="85" column="48" lean-forward="true" selection-start-line="85" selection-start-column="48" selection-end-line="85" selection-end-column="48" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

@@ -69,7 +69,6 @@ public class HTTPConnector {
 
 
     }
-<<<<<<< HEAD
 
     static Task<String> validateLogin(Map<String, Object> requestData){
 
@@ -89,7 +88,4 @@ public class HTTPConnector {
                 });
     }
 
-
-=======
->>>>>>> 68e82b91e3b9072f2df775e0ad8e4bab637a7f61
 }
