@@ -16,8 +16,7 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 
 public class ProductListService {
-//ArrayList<Product>
-    static Task<ArrayList<Product>> getProducts(){
+    static Task<ArrayList<Product>> getProducts() {
         return HTTPConnector.getProducts().continueWith(new Continuation<String, ArrayList<Product>>() {
             @Override
             public ArrayList<Product> then(@NonNull Task<String> task) throws Exception {
@@ -30,23 +29,22 @@ public class ProductListService {
 
                 //converts to json to just get json array [{"quantity":123,"name":"hamburger","location":"E7","id":"1585516373471","pic":"https://storage.googleapis.com/store-front-backend.appspot.com/Products/1585516373471.jpg"}, {"quantity":"100","name":"newProd","location":"G34","id":"1585601148728","pic":"https://storage.googleapis.com/store-front-backend.appspot.com/Products/1585601148728.jpg"}]
                 JsonArray jsonProdArray = new Gson().fromJson(returnedJSON, JsonObject.class).getAsJsonArray("products");
-                Log.i("JSON ARRAY",jsonProdArray.toString() );
+                Log.i("JSON ARRAY", jsonProdArray.toString());
                 //convert JsonArray to arraylist of product objects
-                ArrayList<Product> productArrayList = (ArrayList<Product>) (new Gson()).fromJson(jsonProdArray,new TypeToken<ArrayList<Product>>(){}.getType());
-                Log.i("After productArrayList", Integer.toString(productArrayList.size()) );
+                ArrayList<Product> productArrayList = (ArrayList<Product>) (new Gson()).fromJson(jsonProdArray, new TypeToken<ArrayList<Product>>() {}.getType());
+                Log.i("After productArrayList", Integer.toString(productArrayList.size()));
                 return productArrayList;
-
             }
         });
     }
 
-    static Task<String> addProduct(Product prod){
+    static Task<String> addProduct(Product prod) {
 
         Map<String, Object> requestData = new HashMap<>();
-        requestData.put( "name", prod.name );
-        requestData.put( "pic", prod.pic );
-        requestData.put( "quantity", prod.quantity );
-        requestData.put( "location", prod.location );
+        requestData.put("name", prod.name);
+        requestData.put("pic", prod.pic);
+        requestData.put("quantity", prod.quantity);
+        requestData.put("location", prod.location);
 
 
         return HTTPConnector.addProduct(requestData).continueWith(new Continuation<String, String>() {
@@ -61,11 +59,10 @@ public class ProductListService {
         });
     }
 
-    static Task<String> removeProduct(String productID){
+    static Task<String> removeProduct(String productID) {
 
         Map<String, Object> requestData = new HashMap<>();
-        requestData.put( "productID", productID );
-
+        requestData.put("productID", productID);
 
 
         return HTTPConnector.removeProduct(requestData).continueWith(new Continuation<String, String>() {
@@ -79,10 +76,4 @@ public class ProductListService {
             }
         });
     }
-
-
-
-
-
-
 }
