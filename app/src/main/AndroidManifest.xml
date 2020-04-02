@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name="HttpConnector"
+            android:name="HTTPConnector"
             >
         </service>
     </application>

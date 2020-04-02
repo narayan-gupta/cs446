@@ -70,5 +70,23 @@ public class HTTPConnector {
 
     }
 
+    static Task<String> validateLogin(Map<String, Object> requestData){
+
+        return FirebaseFunctions.getInstance()
+                .getHttpsCallable("validateLogin")
+                .call(requestData)
+                .continueWith(new Continuation<HttpsCallableResult, String>() {
+                    @Override
+                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                        // This continuation runs on either success or failure, but if the task
+                        // has failed then getResult() will throw an Exception which will be
+                        // propagated down.
+
+                        Log.i("HTTP CONNECTOR", "Returned "+task.getResult().getData().toString());
+                        return task.getResult().getData().toString();
+                    }
+                });
+    }
+
 
 }
