@@ -85,7 +85,7 @@ public class GridActivity extends AppCompatActivity {
                     textView.setTextColor(color3);
                     if (!showPath){
                         textView.setClickable(true);
-                        textView.setOnClickListener(new GridOnClickListener(this,iRow,iCol));
+                        //textView.setOnClickListener(new GridOnClickListener(this,iRow,iCol));
                     }
                     else{
                         //int exists = Collections.binarySearch(products,dispVal);
