@@ -19,32 +19,23 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Continuation;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.FirebaseFunctionsException;
-import com.google.firebase.functions.HttpsCallableResult;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class ProductListActivity extends AppCompatActivity {
 
@@ -314,9 +305,9 @@ public class ProductListActivity extends AppCompatActivity {
                     for(int i=0; i<selectedProducts.size(); i++) {
                         prodLocations.add(selectedProducts.get(i).location);
                     }
-                    Intent intent= new Intent(ProductListActivity.this, GridActivity.class);
+                    Intent intent= new Intent(ProductListActivity.this, CreateStoreActivity.class);
                     intent.putStringArrayListExtra("locations", prodLocations);
-                    intent.putExtra("showPath", true);
+                    intent.putExtra("use", "showPath");
                     startActivity(intent);
                 }
             });

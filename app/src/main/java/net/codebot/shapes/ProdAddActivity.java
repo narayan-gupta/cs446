@@ -13,13 +13,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class ProdAddActivity extends AppCompatActivity {
     int CAMERA_REQUEST = 1888;
@@ -37,7 +37,8 @@ public class ProdAddActivity extends AppCompatActivity {
         if (requestCode==GRID_REQUEST){
             char row_num = data.getCharExtra("ROW_NUM",'A');
             int col_num = data.getIntExtra("COL_NUM",0);
-            location=row_num+Integer.toString(col_num);
+            int floorNum = data.getIntExtra("floorNum", 0);
+            location= Integer.toString(floorNum)+ row_num+ Integer.toString(col_num);
             Button b=(Button) findViewById(R.id.prod_location);
             b.setText(location + " (Click to edit)");
         }
@@ -98,8 +99,8 @@ public class ProdAddActivity extends AppCompatActivity {
         Button selectLocation= (Button) findViewById(R.id.prod_location);
         selectLocation.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent intent = new Intent(ProdAddActivity.this, GridActivity.class);
-                intent.putExtra("showPath", false);
+                Intent intent = new Intent(ProdAddActivity.this, CreateStoreActivity.class);
+                intent.putExtra("use", "addProd");
                 startActivityForResult(intent, GRID_REQUEST);
             }
         });
