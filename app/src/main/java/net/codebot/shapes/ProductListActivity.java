@@ -198,9 +198,8 @@ public class ProductListActivity extends AppCompatActivity {
                             if (e instanceof FirebaseFunctionsException) {
                                 FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
                                 FirebaseFunctionsException.Code code = ffe.getCode();
-                                Object details = ffe.getDetails();
-
-                                Log.i("Error", details.toString());
+                                //Object details = ffe.getDetails();
+                               // Log.i("Error", details.toString());
                                 Log.i("Error", ffe.getMessage());
                                 Toast.makeText(ProductListActivity.this, "Error Fetching Products", Toast.LENGTH_SHORT).show();
                             }
@@ -219,6 +218,8 @@ public class ProductListActivity extends AppCompatActivity {
     }
 
 
+
+
     void addProduct(Product prod){
 
         showProgressBar();
@@ -234,8 +235,9 @@ public class ProductListActivity extends AppCompatActivity {
                     if (e instanceof FirebaseFunctionsException) {
                         FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
                         FirebaseFunctionsException.Code code = ffe.getCode();
-                        Object details = ffe.getDetails();
-                        Log.i("Error", details.toString());
+
+                        //Object details = ffe.getDetails();
+
                         Log.i("Error", ffe.getMessage());
                         hideProgressBar();
                         Toast.makeText(ProductListActivity.this, "Error Adding Product", Toast.LENGTH_SHORT).show();
@@ -265,8 +267,8 @@ public class ProductListActivity extends AppCompatActivity {
                             if (e instanceof FirebaseFunctionsException) {
                                 FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
                                 FirebaseFunctionsException.Code code = ffe.getCode();
-                                Object details = ffe.getDetails();
-                                Log.i("Error", details.toString());
+                                //Object details = ffe.getDetails();
+                                //Log.i("Error", details.toString());
                                 Log.i("Error", ffe.getMessage());
                                 Toast.makeText(ProductListActivity.this, "Error Removing Product", Toast.LENGTH_SHORT).show();
                             }
