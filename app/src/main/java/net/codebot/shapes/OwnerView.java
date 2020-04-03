@@ -1,9 +1,9 @@
 package net.codebot.shapes;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class OwnerView extends AppCompatActivity {
 
@@ -20,8 +20,10 @@ public class OwnerView extends AppCompatActivity {
     }
 
     public void GetLayout(View v) {
-        Intent intent = new Intent(this, GridActivity.class);
-        intent.putExtra("showPath", true);
+
+        Intent intent = new Intent(this, CreateStoreActivity.class);
+        intent.putExtra("use", "create");
         startActivity(intent);
     }
+
 }
