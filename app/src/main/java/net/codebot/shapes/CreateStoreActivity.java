@@ -245,8 +245,14 @@ public class CreateStoreActivity extends AppCompatActivity {
                     }
 
                 }
+<<<<<<< HEAD
+                else{
+//                    textView.setBackgroundColor(color2);
+                    textView.setBackgroundResource(R.drawable.my_border);
+=======
                 else if (currentFloorArray[iRow][iCol] == 0){
                     textView.setBackgroundColor(color2);
+>>>>>>> c0c9c39f3e827ff723112e6f7fca32e26a552881
 
                 }
                 else if (currentFloorArray[iRow][iCol] == 2){
