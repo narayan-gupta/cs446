@@ -40,6 +40,8 @@ public class CreateStoreActivity extends AppCompatActivity {
     String use;
     Spinner spinner;
     char [] letters = {'A','B','C','D','E','F','G','H','I','J'};
+    String floorString = "";
+    ArrayList<String> productFloors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +57,9 @@ public class CreateStoreActivity extends AppCompatActivity {
         Log.i("USEVALUE" , use);
 
         products = new ArrayList<>();
-
+        productFloors = new ArrayList<>();
         if (use.equals("showPath")) {
+
             products = getIntent().getStringArrayListExtra("locations");
             if (products != null) {
                 for (int i = 0; i < products.size(); i++) {
@@ -65,8 +68,31 @@ public class CreateStoreActivity extends AppCompatActivity {
                 Collections.sort(products);
 
             }
+
+            floorString = " Products on Floors : ";
+
+            for (int i = 0; i <products.size(); i++){
+                String loc = products.get(i);
+                String floorNum = Character.toString(loc.charAt(0));
+
+                if (!productFloors.contains(floorNum)){
+                    productFloors.add(floorNum);
+                    floorString +=  floorNum + "  ";
+                }
+
+            }
+
+
+
+
         }
+
+        TextView productInfo = (TextView)findViewById(R.id.textView2);
+        productInfo.setText(floorString);
+
         getStore();
+
+
 
     }
 
@@ -201,15 +227,27 @@ public class CreateStoreActivity extends AppCompatActivity {
                         //products.contains(dispVal);
                         if (products != null) {
                             if (products.contains(fullName)) {
-                                textView.setBackgroundColor(red);
+                                int index = products.indexOf(fullName);
+                                if (index != -1){
+                                    textView.setBackgroundColor(red);
+                                    textView.setText(Integer.toString(index + 1));
+                                }
+                                //textView.setBackgroundColor(red);
                             }
                         }
                     }
 
                 }
-                else{
+                else if (currentFloorArray[iRow][iCol] == 0){
                     textView.setBackgroundColor(color2);
 
+                }
+                else if (currentFloorArray[iRow][iCol] == 2){
+                    textView.setText("start");
+                    textView.setTextColor(color3);
+                }
+                else {
+                    textView.setText("stairs");
                 }
                 //textView.setBackgroundColor(((iRow + iCol) % 2 == 0) ? color1 : color2);
                 layout.addView(textView, lp);
