@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,7 +72,7 @@ public class CreateStoreActivity extends AppCompatActivity {
     }
 
     void setupButtons(){
-        Button btn = (Button) findViewById(R.id.updateStoreButton);
+
 
 
         Button updateStoreBtn = (Button)findViewById(R.id.sendStoreButton);
@@ -99,17 +100,11 @@ public class CreateStoreActivity extends AppCompatActivity {
             });
 
 
-            btn.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    renderGrid();
-                }
-            });
-
         }
         else {
             addFloorBtn.setVisibility(View.INVISIBLE);
             updateStoreBtn.setVisibility(View.INVISIBLE);
-            btn.setVisibility(View.INVISIBLE);
+
         }
 
     }
@@ -173,10 +168,22 @@ public class CreateStoreActivity extends AppCompatActivity {
                 textView.setId(id);
                 currCol = iCol;
                 currRow = iRow;
-
+                final int currentiCol= iCol;
+                final int currentiRow= iRow;
                 if (use.equals("create")){
                     textView.setClickable(true);
-                    textView.setOnClickListener(new CreateStoreOnClickListener(this,iRow,iCol,currentFloorArray));
+                    //textView.setOnClickListener(new CreateStoreOnClickListener(this,iRow,iCol,currentFloorArray));
+                    textView.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View view) {
+                            if (currentFloorArray[currentiRow][currentiCol] ==1){
+                                currentFloorArray[currentiRow][currentiCol] =0;
+                            }
+                            else{
+                                currentFloorArray[currentiRow][currentiCol] = 1;
+                            }
+                            renderGrid();
+                        }
+                    });
                 }
 
                 textView.setGravity(Gravity.CENTER);
@@ -244,11 +251,13 @@ public class CreateStoreActivity extends AppCompatActivity {
     }
 
     public void getStore(){
-
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar2);
+        progressBar.setVisibility(View.VISIBLE);
         StoreService.getStore().addOnCompleteListener(new OnCompleteListener<Store>() {
             @Override
             public void onComplete(@NonNull final Task<Store> task) {
                 Log.i("onComplete", "got to onComplete");
+                progressBar.setVisibility(View.INVISIBLE);
                 if (!task.isSuccessful()) {
                     Log.i("ERROR", "Exception");
                     Exception e = task.getException();
@@ -258,18 +267,18 @@ public class CreateStoreActivity extends AppCompatActivity {
                         Object details = ffe.getDetails();
                         Log.i("Error", details.toString());
                         Log.i("Error", ffe.getMessage());
-                        Toast.makeText(CreateStoreActivity.this, "Error Updating Store", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateStoreActivity.this, "Error Fetching Store Layout", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     testStore = task.getResult();
                     currentFloorArray = testStore.getFloors().get(0).getGrid();
                     currentFloor = 0;
                     Floor floor = testStore.getFloors().get(0);
-
+                    findViewById(R.id.gridFrame).setVisibility(View.VISIBLE);
                     String testStr = StoreService.convertStoreToGSON(testStore);
                     Log.i("RETURNED", "Returned "+  Arrays.deepToString(floor.getGrid()));
 
-                    Toast.makeText(CreateStoreActivity.this, "Store Successfully updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateStoreActivity.this, "Store Layout Successfully Fetched", Toast.LENGTH_SHORT).show();
                     displaySpinner();
                     setupButtons();
                     renderGrid();

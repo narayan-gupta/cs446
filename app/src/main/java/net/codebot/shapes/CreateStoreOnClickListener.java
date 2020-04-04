@@ -28,10 +28,12 @@ public class CreateStoreOnClickListener implements View.OnClickListener {
 
         if (this.currentFloorArray[this.row_num][this.col_num] ==1){
             currentFloorArray[row_num][col_num] =0;
+
         }
         else{
             currentFloorArray[row_num][col_num] = 1;
         }
+
     }
 
 }
