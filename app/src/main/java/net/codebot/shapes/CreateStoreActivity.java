@@ -252,9 +252,11 @@ public class CreateStoreActivity extends AppCompatActivity {
                 else if (currentFloorArray[iRow][iCol] == 2){
                     textView.setText("start");
                     textView.setTextColor(color3);
+                    textView.setBackgroundColor(getResources().getColor(R.color.blueGrid)); //hardcoded blue background
                 }
                 else {
                     textView.setText("stairs");
+                    textView.setTextColor(color3);
                 }
                 //textView.setBackgroundColor(((iRow + iCol) % 2 == 0) ? color1 : color2);
                 layout.addView(textView, lp);
