@@ -245,14 +245,11 @@ public class CreateStoreActivity extends AppCompatActivity {
                     }
 
                 }
-<<<<<<< HEAD
-                else{
-//                    textView.setBackgroundColor(color2);
-                    textView.setBackgroundResource(R.drawable.my_border);
-=======
+
+
                 else if (currentFloorArray[iRow][iCol] == 0){
                     textView.setBackgroundColor(color2);
->>>>>>> c0c9c39f3e827ff723112e6f7fca32e26a552881
+                    textView.setBackgroundResource(R.drawable.my_border);
 
                 }
                 else if (currentFloorArray[iRow][iCol] == 2){
@@ -263,6 +260,7 @@ public class CreateStoreActivity extends AppCompatActivity {
                 else {
                     textView.setText("stairs");
                     textView.setTextColor(color3);
+                    textView.setBackgroundColor(getResources().getColor(R.color.blueGrid)); //hardcoded blue background
                 }
                 //textView.setBackgroundColor(((iRow + iCol) % 2 == 0) ? color1 : color2);
                 layout.addView(textView, lp);
