@@ -1,5 +1,6 @@
 package net.codebot.shapes;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -41,6 +42,7 @@ public class GridActivity extends AppCompatActivity {
 
         int color1 = ContextCompat.getColor(GridActivity.this, R.color.black);
         int color2 = ContextCompat.getColor(GridActivity.this, R.color.white);
+//        int color2 = ContextCompat.getDrawable(, );
         int color3 = ContextCompat.getColor(GridActivity.this, R.color.legitWhite);
         int red = ContextCompat.getColor(GridActivity.this, R.color.red);
         TextView textView;
@@ -100,7 +102,6 @@ public class GridActivity extends AppCompatActivity {
                 }
                 else{
                     textView.setBackgroundColor(color2);
-
                 }
                 //textView.setBackgroundColor(((iRow + iCol) % 2 == 0) ? color1 : color2);
                 layout.addView(textView, lp);
