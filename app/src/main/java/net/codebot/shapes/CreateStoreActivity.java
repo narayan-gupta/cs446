@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,8 @@ public class CreateStoreActivity extends AppCompatActivity {
     String use;
     Spinner spinner;
     char [] letters = {'A','B','C','D','E','F','G','H','I','J'};
+    String floorString = "";
+    ArrayList<String> productFloors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +58,9 @@ public class CreateStoreActivity extends AppCompatActivity {
         Log.i("USEVALUE" , use);
 
         products = new ArrayList<>();
-
+        productFloors = new ArrayList<>();
         if (use.equals("showPath")) {
+
             products = getIntent().getStringArrayListExtra("locations");
             if (products != null) {
                 for (int i = 0; i < products.size(); i++) {
@@ -65,13 +69,36 @@ public class CreateStoreActivity extends AppCompatActivity {
                 Collections.sort(products);
 
             }
+
+            floorString = " Products on Floors : ";
+
+            for (int i = 0; i <products.size(); i++){
+                String loc = products.get(i);
+                String floorNum = Character.toString(loc.charAt(0));
+
+                if (!productFloors.contains(floorNum)){
+                    productFloors.add(floorNum);
+                    floorString +=  floorNum + "  ";
+                }
+
+            }
+
+
+
+
         }
+
+        TextView productInfo = (TextView)findViewById(R.id.textView2);
+        productInfo.setText(floorString);
+
         getStore();
+
+
 
     }
 
     void setupButtons(){
-        Button btn = (Button) findViewById(R.id.updateStoreButton);
+
 
 
         Button updateStoreBtn = (Button)findViewById(R.id.sendStoreButton);
@@ -99,17 +126,11 @@ public class CreateStoreActivity extends AppCompatActivity {
             });
 
 
-            btn.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    renderGrid();
-                }
-            });
-
         }
         else {
             addFloorBtn.setVisibility(View.INVISIBLE);
             updateStoreBtn.setVisibility(View.INVISIBLE);
-            btn.setVisibility(View.INVISIBLE);
+
         }
 
     }
@@ -173,10 +194,22 @@ public class CreateStoreActivity extends AppCompatActivity {
                 textView.setId(id);
                 currCol = iCol;
                 currRow = iRow;
-
+                final int currentiCol= iCol;
+                final int currentiRow= iRow;
                 if (use.equals("create")){
                     textView.setClickable(true);
-                    textView.setOnClickListener(new CreateStoreOnClickListener(this,iRow,iCol,currentFloorArray));
+                    //textView.setOnClickListener(new CreateStoreOnClickListener(this,iRow,iCol,currentFloorArray));
+                    textView.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View view) {
+                            if (currentFloorArray[currentiRow][currentiCol] ==1){
+                                currentFloorArray[currentiRow][currentiCol] =0;
+                            }
+                            else{
+                                currentFloorArray[currentiRow][currentiCol] = 1;
+                            }
+                            renderGrid();
+                        }
+                    });
                 }
 
                 textView.setGravity(Gravity.CENTER);
@@ -201,16 +234,33 @@ public class CreateStoreActivity extends AppCompatActivity {
                         //products.contains(dispVal);
                         if (products != null) {
                             if (products.contains(fullName)) {
-                                textView.setBackgroundColor(red);
+                                int index = products.indexOf(fullName);
+                                if (index != -1){
+                                    textView.setBackgroundColor(red);
+                                    textView.setText(Integer.toString(index + 1));
+                                }
+                                //textView.setBackgroundColor(red);
                             }
                         }
                     }
 
                 }
+<<<<<<< HEAD
                 else{
 //                    textView.setBackgroundColor(color2);
                     textView.setBackgroundResource(R.drawable.my_border);
+=======
+                else if (currentFloorArray[iRow][iCol] == 0){
+                    textView.setBackgroundColor(color2);
+>>>>>>> c0c9c39f3e827ff723112e6f7fca32e26a552881
 
+                }
+                else if (currentFloorArray[iRow][iCol] == 2){
+                    textView.setText("start");
+                    textView.setTextColor(color3);
+                }
+                else {
+                    textView.setText("stairs");
                 }
                 //textView.setBackgroundColor(((iRow + iCol) % 2 == 0) ? color1 : color2);
                 layout.addView(textView, lp);
@@ -245,11 +295,13 @@ public class CreateStoreActivity extends AppCompatActivity {
     }
 
     public void getStore(){
-
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar2);
+        progressBar.setVisibility(View.VISIBLE);
         StoreService.getStore().addOnCompleteListener(new OnCompleteListener<Store>() {
             @Override
             public void onComplete(@NonNull final Task<Store> task) {
                 Log.i("onComplete", "got to onComplete");
+                progressBar.setVisibility(View.INVISIBLE);
                 if (!task.isSuccessful()) {
                     Log.i("ERROR", "Exception");
                     Exception e = task.getException();
@@ -259,18 +311,18 @@ public class CreateStoreActivity extends AppCompatActivity {
                         Object details = ffe.getDetails();
                         Log.i("Error", details.toString());
                         Log.i("Error", ffe.getMessage());
-                        Toast.makeText(CreateStoreActivity.this, "Error Updating Store", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateStoreActivity.this, "Error Fetching Store Layout", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     testStore = task.getResult();
                     currentFloorArray = testStore.getFloors().get(0).getGrid();
                     currentFloor = 0;
                     Floor floor = testStore.getFloors().get(0);
-
+                    findViewById(R.id.gridFrame).setVisibility(View.VISIBLE);
                     String testStr = StoreService.convertStoreToGSON(testStore);
                     Log.i("RETURNED", "Returned "+  Arrays.deepToString(floor.getGrid()));
 
-                    Toast.makeText(CreateStoreActivity.this, "Store Successfully updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateStoreActivity.this, "Store Layout Successfully Fetched", Toast.LENGTH_SHORT).show();
                     displaySpinner();
                     setupButtons();
                     renderGrid();
