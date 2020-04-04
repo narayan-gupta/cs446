@@ -35,12 +35,16 @@ public class ProdAddActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode==GRID_REQUEST){
-            char row_num = data.getCharExtra("ROW_NUM",'A');
-            int col_num = data.getIntExtra("COL_NUM",0);
-            int floorNum = data.getIntExtra("floorNum", 0);
-            location= Integer.toString(floorNum)+ row_num+ Integer.toString(col_num);
-            Button b=(Button) findViewById(R.id.prod_location);
-            b.setText(location + " (Click to edit)");
+            if (resultCode == RESULT_OK) {
+                char row_num = data.getCharExtra("ROW_NUM", 'A');
+                int col_num = data.getIntExtra("COL_NUM", 0);
+                int floorNum = data.getIntExtra("floorNum", 0);
+                location = Integer.toString(floorNum) + row_num + Integer.toString(col_num);
+                Button b = (Button) findViewById(R.id.prod_location);
+                b.setText(location + " (Click to edit)");
+            } else {
+                location="noLoc";
+            }
         }
         if (requestCode == CAMERA_REQUEST) {
             if (resultCode == RESULT_OK){
