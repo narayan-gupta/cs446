@@ -40,6 +40,7 @@ public class ProdAddActivity extends AppCompatActivity {
                 int col_num = data.getIntExtra("COL_NUM", 0);
                 int floorNum = data.getIntExtra("floorNum", 0);
                 location = Integer.toString(floorNum) + row_num + Integer.toString(col_num);
+                Log.i("Location",location);
                 Button b = (Button) findViewById(R.id.prod_location);
                 b.setText(location + " (Click to edit)");
             } else {

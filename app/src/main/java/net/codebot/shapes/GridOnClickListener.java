@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
+import static android.app.Activity.RESULT_OK;
+
 public class GridOnClickListener implements View.OnClickListener{
     int row_num;
     int col_num;
@@ -28,7 +30,7 @@ public class GridOnClickListener implements View.OnClickListener{
         retVal.putExtra("ROW_NUM", this.letters[this.row_num]);
         retVal.putExtra("COL_NUM", this.col_num);
         retVal.putExtra("floorNum",this.floorNum);
-        this.act.setResult(1,retVal);
+        this.act.setResult(RESULT_OK,retVal);
         this.act.finish();
     }
 }
