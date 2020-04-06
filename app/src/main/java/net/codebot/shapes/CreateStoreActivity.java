@@ -1,6 +1,5 @@
 package net.codebot.shapes;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,7 +25,6 @@ import com.google.firebase.functions.FirebaseFunctionsException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class CreateStoreActivity extends AppCompatActivity {
     String storeJSON;
@@ -59,17 +57,10 @@ public class CreateStoreActivity extends AppCompatActivity {
 
         products = new ArrayList<>();
         productFloors = new ArrayList<>();
+
         if (use.equals("showPath")) {
 
             products = getIntent().getStringArrayListExtra("locations");
-            if (products != null) {
-                for (int i = 0; i < products.size(); i++) {
-                    Log.i("Product", products.get(i));
-                }
-                Collections.sort(products);
-
-            }
-
             floorString = " Products on Floors : ";
 
             for (int i = 0; i <products.size(); i++){
@@ -82,6 +73,10 @@ public class CreateStoreActivity extends AppCompatActivity {
                 }
 
             }
+
+            getPath(products);
+
+
 
 
 
@@ -229,9 +224,6 @@ public class CreateStoreActivity extends AppCompatActivity {
 
                     }
                     else if(use.equals("showPath")){
-
-                        //int exists = Collections.binarySearch(products,dispVal);
-                        //products.contains(dispVal);
                         if (products != null) {
                             if (products.contains(fullName)) {
                                 int index = products.indexOf(fullName);
@@ -239,7 +231,6 @@ public class CreateStoreActivity extends AppCompatActivity {
                                     textView.setBackgroundColor(red);
                                     textView.setText(Integer.toString(index + 1));
                                 }
-                                //textView.setBackgroundColor(red);
                             }
                         }
                     }
@@ -331,41 +322,6 @@ public class CreateStoreActivity extends AppCompatActivity {
         });
 
     }
-    /*
-    public Store buildStore(){
-        int [][] gridArray = new int[][] {{1,1,1,1,1,1,1,1,1,1},
-                {0,0,0,0,0,0,0,0,0,0},
-                {1,1,1,1,1,0,0,0,0,0},
-                {1,1,1,1,1,0,0,0,1,1},
-                {0,0,0,0,0,0,1,1,1,1},
-                {0,0,0,0,0,0,1,1,1,1},
-                {1,1,1,1,1,0,1,1,1,1},
-                {1,1,1,1,1,0,0,0,1,1},
-                {0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0},
-        };
-
-        HashMap<String,String> testMap = new HashMap<>();
-        testMap.put("00","0");
-        testMap.put("01","1");
-
-        HashMap<String,String> floor2Map = new HashMap<>();
-        floor2Map.put("11","1");
-        floor2Map.put("00","0");
-
-        Floor floor = new Floor(testMap);
-        Floor floor2 = new Floor(floor2Map);
-
-        ArrayList<Floor> floors = new ArrayList<>();
-        floors.add(floor);
-        floors.add(floor2);
-
-
-        Store s = new Store(floors);
-        return s;
-    *}
-
-     */
 
     void updateStore(Store store){
         StoreService.updateStore(store).addOnCompleteListener(new OnCompleteListener<String>() {
@@ -386,6 +342,33 @@ public class CreateStoreActivity extends AppCompatActivity {
                 } else {
                     Log.i("RETURNED", "Returned " + task.getResult());
                     Toast.makeText(CreateStoreActivity.this, "Store Successfully updated", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+
+    void getPath(ArrayList<String> productLocations ){
+        StoreService.getPath(productLocations).addOnCompleteListener(new OnCompleteListener<ArrayList<String>>() {
+            @Override
+            public void onComplete(@NonNull final Task<ArrayList<String>> task) {
+                Log.i("onComplete", "got to onComplete");
+                if (!task.isSuccessful()) {
+                    Log.i("ERROR", "Exception");
+                    Exception e = task.getException();
+                    if (e instanceof FirebaseFunctionsException) {
+                        FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                        FirebaseFunctionsException.Code code = ffe.getCode();
+                        Object details = ffe.getDetails();
+                        //Log.i("Error", details.toString());
+                        Log.i("Error", ffe.getMessage());
+                        Toast.makeText(CreateStoreActivity.this, "Error getting path", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Log.i("RETURNED", "Returned path " + task.getResult());
+                    products = task.getResult();
+
+                    Toast.makeText(CreateStoreActivity.this, "Path successfully fetched", Toast.LENGTH_SHORT).show();
                 }
             }
         });
