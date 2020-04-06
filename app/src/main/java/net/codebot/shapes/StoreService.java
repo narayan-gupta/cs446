@@ -6,8 +6,6 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,15 +37,9 @@ public class StoreService {
 
         for (String key : gridMap.keySet()) {
             String value = gridMap.get(key);
-            Log.i("Key Value",key);
 
             int rowNum = Character.getNumericValue(key.charAt(0));
             int colNum = Character.getNumericValue(key.charAt(1));
-
-
-            Log.i("rowNum" ,Integer.toString(rowNum));
-            Log.i("colNum" ,Integer.toString(colNum));
-
             grid[rowNum][colNum] = Integer.parseInt(value);
         }
 
@@ -83,15 +75,10 @@ public class StoreService {
 
 
         }
-
-        Log.i("HMAP",floorMap.toString());
         return floorMap;
     }
 
     static String convertStoreToGSON(Store store){
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.create();
-
         ArrayList <Floor> floors  = store.getFloors();
 
         JSONArray floorArray = new JSONArray();
@@ -136,7 +123,6 @@ public class StoreService {
                 String returnedJSON = task.getResult();
                 // this is a json array of hashmaps
                 Log.i("JSON STORE", returnedJSON);
-                Log.i("FUCKK","MOTHERFUCKER");
 
                 //JSONObject data = new JSONObject(returnedJSON);
                 JSONArray data = new JSONArray(returnedJSON);
@@ -161,6 +147,42 @@ public class StoreService {
             }
         });
     }
+
+    static Task<ArrayList<String>> getPath(ArrayList<String> productLocations){
+
+        Map<String, Object> requestData = new HashMap<>();
+
+
+        JSONArray locationJsonArray = new JSONArray();
+        for (String location: productLocations){
+            locationJsonArray.put(location);
+        }
+        Log.i("jsonLocations", locationJsonArray.toString());
+        requestData.put("items", locationJsonArray);
+        
+
+        return HTTPConnector.getPath(requestData).continueWith(new Continuation<String, ArrayList<String>>() {
+            @Override
+            public ArrayList<String> then(@NonNull com.google.android.gms.tasks.Task<String> task) throws Exception {
+                // This continuation runs on either success or failure, but if the task
+                // has failed then getResult() will throw an Exception which will be
+                // propagated down.
+                ArrayList<String> path = new ArrayList<>();
+
+                String returnedJSON = task.getResult();
+                JSONArray arr = new JSONArray(returnedJSON);
+
+                for (int i=0; i<arr.length();i++){
+                    path.add(arr.getString(i));
+                }
+
+                Log.i("PATH ", arr.toString());
+
+                return path;
+            }
+        });
+    }
+
 
 
 

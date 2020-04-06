@@ -118,5 +118,22 @@ public class HTTPConnector {
                 });
     }
 
+    static Task<String> getPath(Map<String, Object> requestData) {
+
+
+        return FirebaseFunctions.getInstance() // Optional region: .getInstance("europe-west1")
+                .getHttpsCallable("getPath")
+                .call(requestData)
+                .continueWith(new Continuation<HttpsCallableResult, String>() {
+                    @Override
+                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                        // This continuation runs on either success or failure, but if the task
+                        // has failed then getResult() will throw an Exception which will be
+                        // propagated down.
+                        return new Gson().toJson(task.getResult().getData());
+                    }
+                });
+    }
+
 
     }
